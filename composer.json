@@ -1,0 +1,6 @@
+{
+    "require": {
+        "ddeboer/data-import": "0.*",
+        "phpoffice/phpexcel": "1.8.*"
+    }
+}
