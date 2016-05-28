@@ -7,6 +7,11 @@
 
         // If you need to look up data when opening the page, list it out
         // under "resolve".
+        resolve: {
+        	allEntities: function(crmApi) {
+        		return crmApi('entity', 'get');
+        	}
+        }
 
       });
     }
@@ -15,10 +20,12 @@
   // The controller uses *injection*. This default injects a few things:
   //   $scope -- This is the set of variables shared between JS and HTML.
   //   crmApi, crmStatus, crmUiHelp -- These are services provided by civicrm-core.
-  angular.module('civiimport').controller('CiviimportDataSource', function($scope, crmApi, crmStatus, crmUiHelp) {
+  angular.module('civiimport').controller('CiviimportDataSource', function($scope, crmApi, crmStatus, crmUiHelp, allEntities) {
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('civiimport');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/DataSource'}); // See: templates/CRM/civiimport/DataSource.hlp
+
+    $scope.allEntities = allEntities;
   });
 
 })(angular, CRM.$, CRM._);

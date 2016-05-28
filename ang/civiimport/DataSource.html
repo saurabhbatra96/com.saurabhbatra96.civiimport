@@ -1,22 +1,33 @@
 <div class="crm-container">
 
 
-  <form name="myForm" crm-ui-id-scope>
+  <form name="dsForm" class="crm-block" crm-ui-id-scope>
 
     <div class="help">
       <p>{{ts('Hello World')}}</p>
     </div>
 
-    <div crm-ui-accordion="{title: ts('Greeting')}">
-
-    </div>
-
-    <div crm-ui-accordion="{title: ts('About Me')}">
-      <div class="crm-block">
-        <div class="crm-group">
-         
-        </div>
-      </div>
+    <div crm-ui-accordion="{title: ts('Choose file and entity to import.')}">
+    	<div class="crm-group">
+    		<div crm-ui-field="{name: 'dsForm.entity_name', title: ts('Entity To Import'), help: hs('entityname')}">
+    			<div>
+    				<select
+    					crm-ui-id="dsForm.entity_name"
+    					name="entity_name"
+    					crm-ui-select="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Entity Name')}"
+    				>
+    					<option value=""></option>
+    					<option ng-repeat="entityName in allEntities.values">{{entityName}}</option>
+    				</select>
+    			</div>
+    		</div>
+    		<div crm-ui-field="{name: 'dsForm.uploaded_file', title: ts('Import Data File')}">
+    			<div>
+    				<input type="file" name="">
+    				<!-- TODO: Figure out/ ask totten about  file upload. -->
+    			</div>
+    		</div>
+    	</div>
     </div>
 
   </form>
