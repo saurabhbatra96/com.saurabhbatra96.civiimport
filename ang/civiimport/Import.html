@@ -1,0 +1,62 @@
+<p>
+  {{uploader}}
+</p>
+<form name="crmImport">
+  <div class="crm-block crm-form-block">
+    <div crm-ui-wizard>
+      <div crm-ui-wizard-step crm-title="ts('Upload Data')" ng-form="dsForm">
+        <div crm-ui-debug="files"></div>
+        <div class="crm-group">
+          <div class="crm-block" crm-ui-id-scope>
+            <div crm-ui-field="{name: 'dsForm.entity_name', title: ts('Entity to Import')}">
+              <select
+                crm-ui-id="dsForm.entity_name"
+                name="entity_name"
+                id="entity_name"
+                ng-model="files.entityName"
+                ng-change="changeEntity();"
+                crm-ui-select="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Entity Name')}"
+                required
+                >
+                <option value=""></option>
+                <option ng-repeat="entityName in allEntities.values" ng-value="entityName">{{entityName}}</option>
+              </select>
+            </div>
+            <div crm-ui-field="{name: 'dsForm.import_file', title: ts('Import Data File')}">
+              <input type="file" nv-file-select id="import_file" uploader="uploader" accept=".csv"  required>
+              <ul>
+                <li ng-repeat="item in uploader.queue">
+                  Name: <span ng-bind="item.file.name"></span><br/>
+                  <a class="button" ng-click="item.upload();">Upload</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div crm-ui-wizard-step crm-title="ts('Match Fields')" ng-form="matchForm">
+        <div class="crm-group">
+          <div class="crm-block" crm-ui-id-scope>
+            <div crm-ui-field="{name: 'matchForm.entity_fields', title: ts('Entity Fields')}">
+              <select
+                crm-ui-id="matchForm.entity_fields"
+                name="entity_fields"
+                id="entity_fields"
+                crm-ui-select="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Entity Fields')}"
+                >
+                <option value=""></option>
+                <option ng-repeat="entityField in entityFields.values" ng-value="entityField.id">{{entityField.title}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div crm-ui-wizard-step crm-title="ts('Preview')" ng-form="prevForm">
+
+      </div>
+      <div crm-ui-wizard-step crm-title="ts('Summary')" ng-form="sumForm">
+
+      </div>
+    </div>
+  </div>
+</form>
