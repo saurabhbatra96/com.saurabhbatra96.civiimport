@@ -5,7 +5,6 @@
   <div class="crm-block crm-form-block">
     <div crm-ui-wizard>
       <div crm-ui-wizard-step crm-title="ts('Upload Data')" ng-form="dsForm">
-        <div crm-ui-debug="files"></div>
         <div class="crm-group">
           <div class="crm-block" crm-ui-id-scope>
             <div crm-ui-field="{name: 'dsForm.entity_name', title: ts('Entity to Import')}">
@@ -35,21 +34,31 @@
         </div>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Match Fields')" ng-form="matchForm">
-        <div class="crm-group">
-          <div class="crm-block" crm-ui-id-scope>
-            <div crm-ui-field="{name: 'matchForm.entity_fields', title: ts('Entity Fields')}">
-              <select
-                crm-ui-id="matchForm.entity_fields"
-                name="entity_fields"
-                id="entity_fields"
-                crm-ui-select="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Entity Fields')}"
-                >
-                <option value=""></option>
-                <option ng-repeat="entityField in entityFields.values" ng-value="entityField.id">{{entityField.title}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <table class="display">
+          <thead>
+            <tr>
+              <th>Import Data - Sample Row</th>
+              <th>Matching CiviCRM Field</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="column in firstRow">
+              <td>
+                {{column}}
+              </td>
+              <td>
+                <select
+                  ng-model="matching[$index]"
+                  crm-ui-select="{dropdownAutoWidth : true, allowClear: true}"
+                  >
+                  <option value="no">- do not import -</option>
+                  <option ng-repeat="entityField in entityFields.values" ng-value="entityField.id">{{entityField.title}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a class="button" ng-click="saveMapping();">Save Mapping</a>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Preview')" ng-form="prevForm">
 

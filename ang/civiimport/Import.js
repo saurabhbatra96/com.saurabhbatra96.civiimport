@@ -30,11 +30,26 @@
       });
     }
 
+    var afterUpload = function afterUpload() {
+      CRM.alert('Finished uploading.');
+      var params; // This should send the file resource/address somehow.
+      var result = crmApi('DataSource', 'Getfirstrow', params);
+      result.then(function(data) {
+        $scope.firstRow = data.row;
+      });
+    }
+
     $scope.uploader = new FileUploader({
       onSuccessItem: function onSuccessItem(item, response, status, headers) {
-        CRM.alert("File upload complete.");
+        afterUpload();
       }
     });
+
+    $scope.matching = [];
+
+    $scope.saveMapping = function() {
+      console.log($scope.matching);
+    }
 
   });
 
