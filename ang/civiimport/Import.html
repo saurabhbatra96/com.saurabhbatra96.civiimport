@@ -52,7 +52,7 @@
                   crm-ui-select="{dropdownAutoWidth : true, allowClear: true}"
                   >
                   <option value="no">- do not import -</option>
-                  <option ng-repeat="entityField in entityFields.values" ng-value="entityField.id">{{entityField.title}}</option>
+                  <option ng-repeat="entityField in entityFields.values" value="{{entityField.name}}">{{entityField.title}}</option>
                 </select>
               </td>
             </tr>
