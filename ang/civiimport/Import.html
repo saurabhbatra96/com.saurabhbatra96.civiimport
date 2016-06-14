@@ -22,7 +22,7 @@
               </select>
             </div>
             <div crm-ui-field="{name: 'dsForm.import_file', title: ts('Import Data File')}">
-              <input type="file" nv-file-select id="import_file" uploader="uploader" accept=".csv"  required>
+              <input type="file" nv-file-select id="import_file" name="import_file" uploader="uploader" accept=".csv"  required>
               <ul>
                 <li ng-repeat="item in uploader.queue">
                   Name: <span ng-bind="item.file.name"></span><br/>

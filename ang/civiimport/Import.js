@@ -30,9 +30,10 @@
       });
     }
 
-    var afterUpload = function afterUpload() {
+    var afterUpload = function afterUpload(response) {
+      $scope.fileAddress = response;
       CRM.alert('Finished uploading.');
-      var params; // This should send the file resource/address somehow.
+      var params = {'file_address': response};
       var result = crmApi('DataSource', 'Getfirstrow', params);
       result.then(function(data) {
         $scope.firstRow = data.row;
@@ -40,8 +41,9 @@
     }
 
     $scope.uploader = new FileUploader({
+      url: CRM.url('civicrm/civiimport/datasource'),
       onSuccessItem: function onSuccessItem(item, response, status, headers) {
-        afterUpload();
+        afterUpload(response);
       }
     });
 

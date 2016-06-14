@@ -10,10 +10,16 @@
  * @throws API_Exception
  */
 function civicrm_api3_data_source_Getfirstrow($params) {
-  // Ideally the code here should re-direct to the BAO and should result in the file being read.
-  // Until I figure out how to do that, let's just return dummy data.
+  // This code belongs to the BAO layer, shift later.
+  //
+  // The main purpose of the extension was to allow multiple file format uploads;
+  // Mid-term goal can be accomplished using this, but the main goal remains to somehow allow multiple file formats.
+  $fileAddress = $params['file_address'];
+  $csvFile = fopen($fileAddress, "r");
+  $firstRow = fgetcsv($csvFile);
+
   $data = array(
-    'row' => array('abcd', 'efgh', 'ijkl')
+    'row' => $firstRow
   );
 
   return $data;

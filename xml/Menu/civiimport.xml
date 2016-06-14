@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/civiimport/datasource</path>
+    <page_callback>CRM_Civiimport_Page_DataSource</page_callback>
+    <title>DataSource</title>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
+</menu>
