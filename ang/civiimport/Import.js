@@ -49,8 +49,31 @@
 
     $scope.matching = [];
 
-    $scope.saveMapping = function() {
+    $scope.useMapping = function() {
+      // Generate preview.
       console.log($scope.matching);
+
+      // Perform validation.
+      // IF there are errors, populate an array with them.
+
+      var params = {
+        'file_address': $scope.fileAddress,
+        'matching': $scope.matching,
+        'first_row': $scope.firstRow
+      };
+
+      var result = crmApi('DataSource', 'Geterrors', params);
+      result.then(function(data) {
+        $scope.err = data;
+        console.log($scope.err);
+
+        if (data.errno == 0) {
+          $scope.validationtext = "No errors detected. Click import now to import records.";
+        } else {
+          $scope.validationtext = "CiviCRM has detected invalid data or formatting errors in "+ data.errno +" records. If you continue, these records will be skipped.";
+        }
+
+      });
     }
 
   });

@@ -50,6 +50,7 @@
                 <select
                   ng-model="matching[$index]"
                   crm-ui-select="{dropdownAutoWidth : true, allowClear: true}"
+                  required
                   >
                   <option value="no">- do not import -</option>
                   <option ng-repeat="entityField in entityFields.values" value="{{entityField.name}}">{{entityField.title}}</option>
@@ -58,10 +59,13 @@
             </tr>
           </tbody>
         </table>
-        <a class="button" ng-click="saveMapping();">Save Mapping</a>
+        <a class="button" ng-click="useMapping();">Use Mapping</a>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Preview')" ng-form="prevForm">
-
+        <div class="help">
+          <p>The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results.</p><br>
+          <p class="warning">{{validationtext}}</p>
+        </div>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Summary')" ng-form="sumForm">
 

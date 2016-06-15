@@ -3,3 +3,7 @@
 select {
   width: 36em;
 }
+
+.warning {
+  color: red;
+}
