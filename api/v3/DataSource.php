@@ -39,11 +39,9 @@ function civicrm_api3_data_source_Geterrors($params) {
   $errvalues = array();
   // Let's select those fields which are required and throw errors based on that.
   // This will go to a separate function once this is shifted to the BAO.
-  $entityFields = $params['entity_fields']['values'];
-  foreach($entityFields as $field) {
-    if (isset($field['required']) && $field['required'] && in_array($field['name'], $params['matching'])) {
-      continue;
-    } else {
+  $entityFields = civicrm_api3($params['entity_name'], 'getfields');
+  foreach($entityFields['values'] as $field) {
+    if (isset($field['required']) && $field['required'] && !in_array($field['name'], $params['matching'])) {
       $errno++;
       array_push($errvalues, $field['title'] . " is a required field, you need to fill it out.");
     }

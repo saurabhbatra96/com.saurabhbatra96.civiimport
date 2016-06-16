@@ -66,9 +66,11 @@
           <p>The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results.</p><br>
           <p class="warning">{{validationtext}}</p><br>
           <p>
-            <ul>
-              <li ng-repeat="error in err.values">{{error}}</li>
-            </ul>
+            <div crm-ui-accordion="{title: ts('Error List'), collapsed: true}" ng-show="isError()">
+              <ul>
+                <li ng-repeat="error in err.values">{{error}}</li>
+              </ul>
+            </div>
           </p>
         </div>
       </div>

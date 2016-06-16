@@ -49,6 +49,14 @@
 
     $scope.matching = [];
 
+    $scope.isError = function() {
+      if ($scope.err.errno == 0) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
     $scope.useMapping = function() {
       // Generate preview.
       console.log($scope.matching);
@@ -59,8 +67,7 @@
       var params = {
         'file_address': $scope.fileAddress,
         'matching': $scope.matching,
-        'first_row': $scope.firstRow,
-        'entity_fields': $scope.entityFields
+        'entity_name': files.entityName
       };
 
       var result = crmApi('DataSource', 'Geterrors', params);
@@ -71,7 +78,7 @@
         if (data.errno == 0) {
           $scope.validationtext = "No errors detected. Click import now to import records.";
         } else {
-          $scope.validationtext = "CiviCRM has detected "+ data.errno +" fatal errors in your import and listed them below. Please go back and fix them before continuing.";
+          $scope.validationtext = "CiviCRM has detected "+ data.errno +" fatal error(s) in your import and listed them below. Please go back and fix them before continuing.";
           // $scope.validationtext = "CiviCRM has detected invalid data or formatting errors in "+ data.errno +" records. If you continue, these records will be skipped.";
         }
 
