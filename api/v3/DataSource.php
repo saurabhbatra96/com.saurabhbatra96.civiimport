@@ -1,17 +1,6 @@
 <?php
 
 /**
- * DataSource.create API
- *
- * @param array $params
- * @return array API result descriptor
- * @throws API_Exception
- */
-function civicrm_api3_data_source_create($params) {
-  return _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params);
-}
-
-/**
  * DataSource.Getfirstrow API
  *
  * @param array $params
@@ -21,8 +10,8 @@ function civicrm_api3_data_source_create($params) {
  * @throws API_Exception
  */
 function civicrm_api3_data_source_Getfirstrow($params) {
-  // This code belongs to the BAO layer, shift later.
-  //
+  // TODO: Shift to BAO
+
   // The main purpose of the extension was to allow multiple file format uploads;
   // Mid-term goal can be accomplished using this, but the main goal remains to somehow allow multiple file formats.
   $fileAddress = $params['file_address'];
@@ -46,14 +35,23 @@ function civicrm_api3_data_source_Getfirstrow($params) {
  * @throws API_Exception
  */
 function civicrm_api3_data_source_Geterrors($params) {
-  // This code belongs to the BAO layer, shift later.
+  $errno = 0;
+  $errvalues = array();
+  // Let's select those fields which are required and throw errors based on that.
+  // This will go to a separate function once this is shifted to the BAO.
+  $entityFields = $params['entity_fields']['values'];
+  foreach($entityFields as $field) {
+    if (isset($field['required']) && $field['required'] && in_array($field['name'], $params['matching'])) {
+      continue;
+    } else {
+      $errno++;
+      array_push($errvalues, $field['title'] . " is a required field, you need to fill it out.");
+    }
+  }
 
   $errors = array(
-    'values' => array(
-      'someval',
-      'some other val'
-      ),
-    'errno' => 2
+    'values' => $errvalues,
+    'errno' => $errno
   );
 
 

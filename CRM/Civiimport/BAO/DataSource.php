@@ -2,23 +2,30 @@
 
 class CRM_Civiimport_BAO_DataSource extends CRM_Civiimport_DAO_DataSource {
 
-  /**
-   * Create a new DataSource based on array-data
-   *
-   * @param array $params key-value pairs
-   * @return CRM_Civiimport_DAO_DataSource|NULL
-   *
-  public static function create($params) {
-    $className = 'CRM_Civiimport_DAO_DataSource';
-    $entityName = 'DataSource';
-    $hook = empty($params['id']) ? 'create' : 'edit';
+  public static function Getfirstrow($params) {
+    // The main purpose of the extension was to allow multiple file format uploads;
+    // Mid-term goal can be accomplished using this, but the main goal remains to somehow allow multiple file formats.
+    $fileAddress = $params['file_address'];
+    $csvFile = fopen($fileAddress, "r");
+    $firstRow = fgetcsv($csvFile);
 
-    CRM_Utils_Hook::pre($hook, $entityName, CRM_Utils_Array::value('id', $params), $params);
-    $instance = new $className();
-    $instance->copyValues($params);
-    $instance->save();
-    CRM_Utils_Hook::post($hook, $entityName, $instance->id, $instance);
+    $data = array(
+      'row' => $firstRow
+    );
 
-    return $instance;
-  } */
+    return $data;
+  }
+
+  public static function Geterrors($params) {
+    $errors = array(
+      'values' => array(
+        'someval',
+        'some other val'
+        ),
+      'errno' => 2
+    );
+
+
+    return $errors;
+  }
 }

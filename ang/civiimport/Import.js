@@ -71,7 +71,8 @@
         if (data.errno == 0) {
           $scope.validationtext = "No errors detected. Click import now to import records.";
         } else {
-          $scope.validationtext = "CiviCRM has detected invalid data or formatting errors in "+ data.errno +" records. If you continue, these records will be skipped.";
+          $scope.validationtext = "CiviCRM has detected "+ data.errno +" fatal errors in your import and listed them below. Please go back and fix them before continuing.";
+          // $scope.validationtext = "CiviCRM has detected invalid data or formatting errors in "+ data.errno +" records. If you continue, these records will be skipped.";
         }
 
       });

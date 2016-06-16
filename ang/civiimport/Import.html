@@ -64,7 +64,12 @@
       <div crm-ui-wizard-step crm-title="ts('Preview')" ng-form="prevForm">
         <div class="help">
           <p>The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results.</p><br>
-          <p class="warning">{{validationtext}}</p>
+          <p class="warning">{{validationtext}}</p><br>
+          <p>
+            <ul>
+              <li ng-repeat="error in err.values">{{error}}</li>
+            </ul>
+          </p>
         </div>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Summary')" ng-form="sumForm">
