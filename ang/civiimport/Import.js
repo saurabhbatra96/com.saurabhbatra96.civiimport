@@ -59,7 +59,8 @@
       var params = {
         'file_address': $scope.fileAddress,
         'matching': $scope.matching,
-        'first_row': $scope.firstRow
+        'first_row': $scope.firstRow,
+        'entity_fields': $scope.entityFields
       };
 
       var result = crmApi('DataSource', 'Geterrors', params);
