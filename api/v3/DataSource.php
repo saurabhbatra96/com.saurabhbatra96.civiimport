@@ -10,19 +10,13 @@
  * @throws API_Exception
  */
 function civicrm_api3_data_source_Getfirstrow($params) {
-  // TODO: Shift to BAO
-
   // The main purpose of the extension was to allow multiple file format uploads;
   // Mid-term goal can be accomplished using this, but the main goal remains to somehow allow multiple file formats.
   $fileAddress = $params['file_address'];
   $csvFile = fopen($fileAddress, "r");
-  $firstRow = fgetcsv($csvFile);
+  $values = fgetcsv($csvFile);
 
-  $data = array(
-    'row' => $firstRow
-  );
-
-  return $data;
+  return civicrm_api3_create_success($values, $params);
 }
 
 /**
@@ -35,23 +29,16 @@ function civicrm_api3_data_source_Getfirstrow($params) {
  * @throws API_Exception
  */
 function civicrm_api3_data_source_Geterrors($params) {
-  $errno = 0;
   $errvalues = array();
+
   // Let's select those fields which are required and throw errors based on that.
-  // This will go to a separate function once this is shifted to the BAO.
+  // TODO: Not sure if this is how we get the required values out of the API.
   $entityFields = civicrm_api3($params['entity_name'], 'getfields');
   foreach($entityFields['values'] as $field) {
     if (isset($field['required']) && $field['required'] && !in_array($field['name'], $params['matching'])) {
-      $errno++;
       array_push($errvalues, $field['title'] . " is a required field, you need to fill it out.");
     }
   }
 
-  $errors = array(
-    'values' => $errvalues,
-    'errno' => $errno
-  );
-
-
-  return $errors;
+  return civicrm_api3_create_success($errvalues, $params);
 }
