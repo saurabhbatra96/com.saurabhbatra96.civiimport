@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Ddeboer\\DataImport\\Tests\\' => array($vendorDir . '/ddeboer/data-import/tests'),
+    'Ddeboer\\DataImport\\' => array($vendorDir . '/ddeboer/data-import/src'),
 );

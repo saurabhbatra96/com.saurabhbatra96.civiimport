@@ -30,6 +30,10 @@
       });
     }
 
+    $scope.userIsLoggedIn = function() {
+      return true;
+    }
+
     var afterUpload = function afterUpload(response) {
       $scope.fileAddress = response;
       CRM.alert('Finished uploading.');
@@ -69,7 +73,6 @@
         'matching': $scope.matching,
         'entity_name': files.entityName
       };
-
       var result = crmApi('DataSource', 'Geterrors', params);
       result.then(function(data) {
         $scope.err = data;

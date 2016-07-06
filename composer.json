@@ -1,5 +1,6 @@
 {
     "require": {
+	"google/apiclient": "1.*",
         "ddeboer/data-import": "0.*",
         "phpoffice/phpexcel": "1.8.*"
     }

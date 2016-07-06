@@ -57,7 +57,8 @@ Documentation
       - [Create an item converter](#create-an-item-converter)
       - [CallbackItemConverter](#callbackitemconverter)
     - [Value converters](#value-converters)
-      - [DateTimeValueConverter](#datetimevalueconverter)
+      - [StringToDateTimeValueConverter](#stringtodatetimevalueconverter)
+      - [DateTimeToStringValueConverter](#datetimetostringvalueconverter)
       - [ObjectConverter](#objectconverter)
       - [StringToObjectConverter](#stringtoobjectconverter)
       - [ArrayValueConverterMap](#arrayvalueconvertermap)
@@ -93,7 +94,7 @@ Usage
 
 Broadly speaking, you can use this library in two ways:
 
-* organize your import process around a [workflow](#workflow), or
+* organize your import process around a [workflow](#the-workflow), or
 * use one or more of the components on their own, such as [readers](#readers),
   [writers](#writers) or [converters](#converters).
 
@@ -315,7 +316,7 @@ $reader = new DoctrineReader($entityManager, 'Your\Namespace\Entity\User');
 
 #### ExcelReader
 
-Acts as an adapter for the [PHPExcel library](http://phpexcel.codeplex.com/). Make sure
+Acts as an adapter for the [PHPExcel library](https://github.com/PHPOffice/PHPExcel). Make sure
 to include that library in your project:
 
 ```bash
@@ -327,7 +328,7 @@ Then use the reader to open an Excel file:
 ```php
 use Ddeboer\DataImport\Reader\ExcelReader;
 
-$file = new \SplFileObject('path/to/ecxel_file.xls');
+$file = new \SplFileObject('path/to/excel_file.xls');
 $reader = new ExcelReader($file);
 ```
 
@@ -423,7 +424,7 @@ array(
 #### Create a reader
 
 You can create your own data reader by implementing the
-[ReaderInterface](/src/Ddeboer/DataImport/Reader/ReaderInterface.php).
+[Reader Interface](/src/Reader.php).
 
 ### Writers
 
@@ -680,7 +681,7 @@ $writer->addWriter('second writer', new MyStreamWriter());
 #### Create a writer
 
 Build your own writer by implementing the
-[WriterInterface](/src/Ddeboer/DataImport/Writer/WriterInterface.php).
+[Writer Interface](/src/Writer.php).
 
 ### Filters
 
@@ -914,9 +915,9 @@ $converter = new CallbackItemConverter(function ($item) use ($translator) {
 
 Value converters are used to convert specific fields (e.g., columns in database).
 
-#### DateTimeValueConverter
+#### StringToDateTimeValueConverter
 
-There are two uses for the DateTimeValueConverter:
+There are two uses for the StringToDateTimeValueConverter:
 
 1. Convert a date representation in a format you specify into a `DateTime` object.
 2. Convert a date representation in a format you specify into a different format.
@@ -924,18 +925,18 @@ There are two uses for the DateTimeValueConverter:
 ##### Convert a date into a `DateTime` object.
 
 ```php
-use Ddeboer\DataImport\ValueConverter\DateTimeValueConverter;
+use Ddeboer\DataImport\ValueConverter\StringDateTimeValueConverter;
 
-$converter = new DateTimeValueConverter('d/m/Y H:i:s');
+$converter = new StringToDateTimeValueConverter('d/m/Y H:i:s');
 $workflow->addValueConverter('my_date_field', $converter);
 ```
 
 If your date string is in a format specified at: http://www.php.net/manual/en/datetime.formats.date.php then you can omit the format parameter.
 
 ```php
-use Ddeboer\DataImport\ValueConverter\DateTimeValueConverter;
+use Ddeboer\DataImport\ValueConverter\StringToDateTimeValueConverter;
 
-$converter = new DateTimeValueConverter();
+$converter = new StringToDateTimeValueConverter();
 $workflow->addValueConverter('my_date_field', $converter);
 ```
 
@@ -951,10 +952,22 @@ $workflow->addValueConverter('my_date_field', $converter);
 If your date is in a format specified at: http://www.php.net/manual/en/datetime.formats.date.php you can pass `null` as the first argument.
 
 ```php
-use Ddeboer\DataImport\ValueConverter\DateTimeValueConverter;
+use Ddeboer\DataImport\ValueConverter\StringToDateTimeValueConverter;
 
-$converter = new DateTimeValueConverter(null, 'd-M-Y');
+$converter = new StringToDateTimeValueConverter(null, 'd-M-Y');
 $workflow->addValueConverter('my_date_field', $converter);
+```
+
+#### DateTimeToStringValueConverter
+
+The main use of DateTimeToStringValueConverter is to convert DateTime object into it's string representation in proper format.
+Default format is 'Y-m-d H:i:s';
+
+```php
+use Ddeboer\DataImport\ValueConverter\DateTimeToStringValueConverter;
+
+$converter = new DateTimeToStringValueConverter;
+$converter->convert(\DateTime('2010-01-01 01:00:00'));  //will return string '2010-01-01 01:00:00'
 ```
 
 #### ObjectConverter
@@ -1121,7 +1134,7 @@ Then you can import the CSV and save it as your entity in the following way.
 use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader\CsvReader;
 use Ddeboer\DataImport\Writer\DoctrineWriter;
-use Ddeboer\DataImport\ValueConverter\DateTimeValueConverter;
+use Ddeboer\DataImport\ValueConverter\StringToDateTimeValueConverter;
 
 // Create and configure the reader
 $file = new \SplFileObject('input.csv');
@@ -1139,7 +1152,7 @@ $workflow->addWriter($doctrineWriter);
 
 // Add a converter to the workflow that will convert `beginDate` and `endDate`
 // to \DateTime objects
-$dateTimeConverter = new DateTimeValueConverter('Ymd');
+$dateTimeConverter = new StringToDateTimeValueConverter('Ymd');
 $workflow
     ->addValueConverter('beginDate', $dateTimeConverter)
     ->addValueConverter('endDate', $dateTimeConverter);
