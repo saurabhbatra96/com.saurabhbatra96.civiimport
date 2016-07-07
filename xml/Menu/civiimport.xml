@@ -6,4 +6,10 @@
     <title>DataSource</title>
     <access_arguments>administer CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/civiimport/gdrive</path>
+    <page_callback>CRM_Civiimport_Page_GDrive</page_callback>
+    <title>GDrive</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>

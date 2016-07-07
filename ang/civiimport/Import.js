@@ -13,7 +13,7 @@
     }
   );
 
-  angular.module('civiimport').controller('CiviimportImport', function($scope, crmApi, crmStatus, crmUiHelp, allEntities, FileUploader) {
+  angular.module('civiimport').controller('CiviimportImport', function($window, $scope, crmApi, crmStatus, crmUiHelp, allEntities, FileUploader) {
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('civiimport');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/Import'});
@@ -38,7 +38,7 @@
     $scope.getAuthUrl = function() {
       var result = crmApi('GDrive', 'Getauthurl');
       result.then(function(data) {
-        console.log(data);
+        $window.location.href = data.values;
       });
     }
 
