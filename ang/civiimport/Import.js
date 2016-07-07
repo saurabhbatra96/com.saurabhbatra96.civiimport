@@ -18,6 +18,9 @@
     var ts = $scope.ts = CRM.ts('civiimport');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/Import'});
 
+    // Determine whether the user is logged into Google Drive or not.
+    $scope.isUserLoggedIn = false;
+
     // Use this to log the filename and name of the entity being imported.
     $scope.allEntities = allEntities;
     var files = {entityName: "", fileName: ""}
@@ -31,8 +34,12 @@
       });
     }
 
-    $scope.userIsLoggedIn = function() {
-      return true;
+    // Google Drive functionality.
+    $scope.getAuthUrl = function() {
+      var result = crmApi('GDrive', 'Getauthurl');
+      result.then(function(data) {
+        console.log(data);
+      });
     }
 
     // Call this after upload of file is finished.

@@ -35,7 +35,7 @@
             </p>
 
             <div crm-ui-field="{title: ts('Upload from Google Docs')}">
-              <a class="button" ng-show="userIsLoggedIn();">Sign in with Google</a>
+              <a class="button" ng-show="!isUserLoggedIn;" ng-click="getAuthUrl();">Sign in with Google</a>
             </div>
 
           </div>
