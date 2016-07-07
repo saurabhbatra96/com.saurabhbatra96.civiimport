@@ -7,3 +7,7 @@ select {
 .warning {
   color: red;
 }
+
+.textfield {
+  width: 36em;
+}

@@ -19,7 +19,27 @@
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/Import'});
 
     // Determine whether the user is logged into Google Drive or not.
+    // TODO: This piece feels kinda shady to me, fix when you have the time.
     $scope.isUserLoggedIn = false;
+    crmApi('GDrive', 'Getlogincred').then(function(data) {
+      if (data.values != 'error') {
+        $scope.accessToken = data.values;
+        $scope.isUserLoggedIn = true;
+      }
+    });
+
+    // Use this to logout from Google Drive.
+    $scope.logoutUser = function() {
+      crmApi('GDrive', 'Userlogout').then(function(data) {
+        if (data.values == 'success') {
+          $scope.isUserLoggedIn = false;
+          $scope.accessToken = NULL;
+          CRM.alert('Logged out.');
+        } else {
+          CRM.alert('Logout was not successful.');
+        }
+      });
+    }
 
     // Use this to log the filename and name of the entity being imported.
     $scope.allEntities = allEntities;

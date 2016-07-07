@@ -22,7 +22,7 @@
               </select>
             </div>
             <div crm-ui-field="{name: 'dsForm.import_file', title: ts('Import Data File')}">
-              <input type="file" nv-file-select id="import_file" name="import_file" uploader="uploader" accept=".csv"  required>
+              <input type="file" nv-file-select id="import_file" name="import_file" uploader="uploader" accept=".csv">
               <ul ng-repeat="item in uploader.queue">
                 <li>
                   Name: <span ng-bind="item.file.name"></span><br/>
@@ -36,6 +36,9 @@
 
             <div crm-ui-field="{title: ts('Upload from Google Docs')}">
               <a class="button" ng-show="!isUserLoggedIn;" ng-click="getAuthUrl();">Sign in with Google</a>
+              <input type="text" class="crm-form-text textfield" placeholder="Enter file id of your Google Sheet." ng-show="isUserLoggedIn;" ng-minlength="1"><br><br>
+              <a class="button" ng-show="isUserLoggedIn;" ng-click="exportToCsv();">Export from Google</a>
+              <a class="button" ng-show="isUserLoggedIn;" ng-click="logoutUser();">Logout</a>
             </div>
 
           </div>
