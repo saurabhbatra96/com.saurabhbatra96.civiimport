@@ -23,7 +23,6 @@
     $scope.isUserLoggedIn = false;
     crmApi('GDrive', 'Getlogincred').then(function(data) {
       if (data.values != 'error') {
-        $scope.accessToken = data.values;
         $scope.isUserLoggedIn = true;
       }
     });
@@ -33,7 +32,6 @@
       crmApi('GDrive', 'Userlogout').then(function(data) {
         if (data.values == 'success') {
           $scope.isUserLoggedIn = false;
-          $scope.accessToken = NULL;
           CRM.alert('Logged out.');
         } else {
           CRM.alert('Logout was not successful.');
@@ -80,6 +78,23 @@
         afterUpload(response);
       }
     });
+
+    // This exports the Google Sheet as a CSV to the uploads directory.
+    $scope.sheetId = '';
+    $scope.exportSheet = function() {
+      var params = {
+        'sheet_id': '1QRH0vP8q3R4s82H0F7I8xpL9zLQ0EBkN8Q26EIPE3bM'
+      };
+
+      crmApi('GDrive', 'Exportsheet', params).then(function(data) {
+        CRM.alert('Finished exporting Google Sheet');
+        var params = {'file_address': data.values};
+        var result = crmApi('DataSource', 'Getfirstrow', params);
+        result.then(function(data) {
+          $scope.firstRow = data.values;
+        });
+      });
+    }
 
     // This array stores the mappings the user dictates.
     $scope.matching = [];

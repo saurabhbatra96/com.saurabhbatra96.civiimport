@@ -36,8 +36,14 @@
 
             <div crm-ui-field="{title: ts('Upload from Google Docs')}">
               <a class="button" ng-show="!isUserLoggedIn;" ng-click="getAuthUrl();">Sign in with Google</a>
-              <input type="text" class="crm-form-text textfield" placeholder="Enter file id of your Google Sheet." ng-show="isUserLoggedIn;" ng-minlength="1"><br><br>
-              <a class="button" ng-show="isUserLoggedIn;" ng-click="exportToCsv();">Export from Google</a>
+              <input type="text"
+                     ng-model="sheetId"
+                     class="crm-form-text textfield"
+                     placeholder="Enter file id of your Google Sheet."
+                     ng-show="isUserLoggedIn;"
+                     name="sheet_id"
+                     id="sheet_id"><br><br>
+              <a class="button" ng-show="isUserLoggedIn;" ng-click="exportSheet();">Export from Google</a>
               <a class="button" ng-show="isUserLoggedIn;" ng-click="logoutUser();">Logout</a>
             </div>
 
