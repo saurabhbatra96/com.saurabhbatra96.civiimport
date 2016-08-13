@@ -109,26 +109,8 @@
         'entity_name': files.entityName
       };
       var result = crmApi('DataSource', 'Geterrors', params);
-      result.then(function(data) {
-        $scope.err = data;
-
-        if (data.count == 0) {
-          $scope.validationtext = "No errors detected. Click import now to import records.";
-        } else {
-          $scope.validationtext = "CiviCRM has detected "+ data.count +" fatal error(s) in your import and listed them below. Please go back and fix them before continuing.";
-          // $scope.validationtext = "CiviCRM has detected invalid data or formatting errors in "+ data.errno +" records. If you continue, these records will be skipped.";
-        }
-
-      });
     }
 
-    $scope.isError = function() {
-      if ($scope.err.count == 0) {
-        return false;
-      } else {
-        return true;
-      }
-    }
 
   });
 

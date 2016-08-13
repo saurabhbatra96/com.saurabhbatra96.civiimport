@@ -30,15 +30,7 @@ function civicrm_api3_data_source_Getfirstrow($params) {
  */
 function civicrm_api3_data_source_Geterrors($params) {
   $errvalues = array();
-
-  // Let's select those fields which are required and throw errors based on that.
-  // TODO: Not sure if this is how we get the required values out of the API.
-  $entityFields = civicrm_api3($params['entity_name'], 'getfields');
-  foreach($entityFields['values'] as $field) {
-    if (isset($field['required']) && $field['required'] && !in_array($field['name'], $params['matching'])) {
-      array_push($errvalues, $field['title'] . " is a required field, you need to fill it out.");
-    }
-  }
-
+  // call validate API, print errors to CSV file
+  // and then return the CSV file.
   return civicrm_api3_create_success($errvalues, $params);
 }
