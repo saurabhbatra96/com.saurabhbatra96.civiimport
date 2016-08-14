@@ -141,15 +141,25 @@ function civiimport_civicrm_preProcess($formName, &$form) {
  * Implements hook_civicrm_navigationMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
- *
+ */
 function civiimport_civicrm_navigationMenu(&$menu) {
-  _civiimport_civix_insert_navigation_menu($menu, NULL, array(
-    'label' => ts('The Page', array('domain' => 'com.saurabhbatra96.civiimport')),
-    'name' => 'the_page',
-    'url' => 'civicrm/the-page',
-    'permission' => 'access CiviReport,access CiviContribute',
-    'operator' => 'OR',
-    'separator' => 0,
-  ));
-  _civiimport_civix_navigationMenu($menu);
-} // */
+  $maxID = CRM_Core_DAO::singleValueQuery("SELECT max(id) FROM civicrm_navigation");
+  $administerMenuId = CRM_Core_DAO::getFieldValue('CRM_Core_BAO_Navigation', 'Administer', 'id', 'name');
+  if (!$administerMenuId) {
+    return;
+  }
+  $navId = $maxID + 1;
+  $menu[$navId] = array (
+    'attributes' => array (
+      'label' => 'CiviImport',
+      'name' => 'Import to any API',
+      'url' => 'civicrm/a/#/import',
+      'permission' => 'administer CiviCRM',
+      'operator' => null,
+      'separator' => null,
+      'parentID' => $administerMenuId,
+      'active' => 1,
+      'navID' => $navId,
+      )
+    );
+}
