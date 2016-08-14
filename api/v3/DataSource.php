@@ -28,7 +28,7 @@ function civicrm_api3_data_source_Getfirstrow($params) {
  * @see civicrm_api3_create_error
  * @throws API_Exception
  */
-function civicrm_api3_data_source_Geterrorsfile($params) {
+function civicrm_api3_data_source_Geterrors($params) {
   $errvalues = array();
   $matching = $params['matching'];
   $entityName = $params['entity_name'];

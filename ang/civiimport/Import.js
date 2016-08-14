@@ -108,9 +108,15 @@
         'matching': $scope.matching,
         'entity_name': files.entityName
       };
-      var result = crmApi('DataSource', 'Geterrorsfile', params);
+      var result = crmApi('DataSource', 'Geterrors', params);
       result.then(function(data) {
-        console.log(data.values);
+        if (data.count == 0) {
+          $scope.isError = false;
+        } else {
+          $scope.isError = true;
+          $scope.errno = data.count;
+        }
+        $scope.errors = data.values;
       });
     }
 
