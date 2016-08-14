@@ -22,6 +22,9 @@ function civicrm_api3_data_source_Getfirstrow($params) {
 /**
  * DataSource.Geterrors API
  *
+ * Geterrors API is a wrapper which calls the 'validate' action on every set
+ * of parameters defined in a row of the CSV file.
+ *
  * @param array $params
  * @return array API result descriptor
  * @see civicrm_api3_create_success
@@ -58,4 +61,40 @@ function civicrm_api3_data_source_Geterrors($params) {
   // them in a CSV file and provide a link to download that file.
 
   return civicrm_api3_create_success($errvalues, $params);
+}
+
+/**
+ * DataSource.Getpreload API
+ *
+ * Use this to get data that needs to be preloaded.
+ *
+ * @param array $params
+ * @return array API result descriptor
+ * @see civicrm_api3_create_success
+ * @see civicrm_api3_create_error
+ * @throws API_Exception
+ */
+function civicrm_api3_data_source_Getpreload($params) {
+  $preload = array();
+  // Need to preload entities, but check first if they are cached.
+  $globalCache = CRM_Utils_Cache::singleton();
+  if ($cachedEntities = $globalCache->get('all_entities')) {
+    $allEntities = $cachedEntities;
+  }
+  // Else we'll go through all possible entities, figure out where 'create' is allowed
+  // & then cache those results for later.
+  else {
+    $getEntitiesResult = civicrm_api3('Entity', 'get');
+    $getEntitiesValues = $getEntitiesResult['values'];
+    foreach ($getEntitiesValues as $entity) {
+      $entityActions = civicrm_api3($entity, 'getactions');
+      if (in_array('create', $entityActions['values'])) {
+        $allEntities[] = $entity;
+      }
+    }
+
+    $globalCache->set('all_entities', $allEntities);
+  }
+
+  return civicrm_api3_create_success($allEntities, $params);
 }

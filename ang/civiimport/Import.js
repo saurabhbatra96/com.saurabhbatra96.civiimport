@@ -5,15 +5,15 @@
         controller: 'CiviimportImport',
         templateUrl: '~/civiimport/Import.html',
         resolve: {
-        	allEntities: function(crmApi) {
-        		return crmApi('Entity', 'get');
+        	preLoad: function(crmApi) {
+        		return crmApi('DataSource', 'Getpreload');
         	}
         }
       });
     }
   );
 
-  angular.module('civiimport').controller('CiviimportImport', function($window, $scope, crmApi, crmStatus, crmUiHelp, allEntities, FileUploader) {
+  angular.module('civiimport').controller('CiviimportImport', function($window, $scope, crmApi, crmStatus, crmUiHelp, preLoad, FileUploader) {
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('civiimport');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/Import'});
@@ -40,7 +40,7 @@
     }
 
     // Use this to log the filename and name of the entity being imported.
-    $scope.allEntities = allEntities;
+    $scope.allEntities = preLoad;
     var files = {entityName: "", fileName: ""}
     $scope.files = files;
 
