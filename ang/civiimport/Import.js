@@ -118,6 +118,8 @@
         }
         $scope.errors = data.values.errvalues;
         $scope.skiprows = data.values.skiprows;
+        $scope.totalRowsNo = data.values.total_rows;
+        $scope.validRowsNo = data.values.valid_rows;
       });
     }
 

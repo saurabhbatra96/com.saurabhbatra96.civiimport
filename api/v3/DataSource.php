@@ -70,6 +70,8 @@ function civicrm_api3_data_source_Geterrors($params) {
 
   $errors['errvalues'] = $errvalues;
   $errors['skiprows'] = $skiprows;
+  $errors['total_rows'] = $rowcount;
+  $errors['valid_rows'] = $rowcount - count($skiprows);
 
   return civicrm_api3_create_success($errors, $params);
 }
