@@ -125,6 +125,39 @@
         <a class="button" ng-click="import();">Import Selected Rows</a>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Summary')" ng-form="sumForm">
+        <div class="help">
+          <p><b>Import has completed successfully.</b></p>
+        </div>
+        <table class="display">
+          <thead>
+            <tr>
+              <th>Preview</th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Total Rows
+              </td>
+              <td>
+                {{totalRowsNo}}
+              </td>
+            </tr>
+            <tr>
+              <td>Invalid Rows</td>
+              <td>{{totalRowsNo - rowsImported}}
+            </tr>
+            <tr>
+              <td>
+                Rows imported successfully
+              </td>
+              <td>
+                {{rowsImported}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
       </div>
     </div>
