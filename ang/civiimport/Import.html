@@ -81,7 +81,7 @@
       <div crm-ui-wizard-step crm-title="ts('Validation')" ng-form="validationForm">
         <div class="help">
           <p>The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results.</p><br>
-          <p class="warning" ng-show="isError">CiviCRM has detected errors in {{errno}} row(s), these values will be skipped on import OR you can go back and fix the errors.
+          <p class="warning" ng-show="isError">CiviCRM has detected errors in some row(s), these values will be skipped on import OR you can go back and fix the errors.
           A preview of the error list is available below, you can also access the complete error list by downloading this CSV file.</p><br>
           <p>
             <div crm-ui-accordion="{title: ts('Error List'), collapsed: true}" ng-show="isError">
@@ -95,6 +95,7 @@
             </div>
           </p>
         </div>
+        <a class="button" ng-click="import();">Import Selected Rows</a>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Summary')" ng-form="sumForm">
 

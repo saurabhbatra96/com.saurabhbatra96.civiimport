@@ -11,7 +11,8 @@
  */
 function civicrm_api3_data_source_Getfirstrow($params) {
   // The main purpose of the extension was to allow multiple file format uploads;
-  // Mid-term goal can be accomplished using this, but the main goal remains to somehow allow multiple file formats.
+  // Mid-term goal can be accomplished using this, but the main goal remains to
+  // somehow allow multiple file formats.
   $fileAddress = $params['file_address'];
   $csvFile = fopen($fileAddress, "r");
   $values = fgetcsv($csvFile);
@@ -33,6 +34,7 @@ function civicrm_api3_data_source_Getfirstrow($params) {
  */
 function civicrm_api3_data_source_Geterrors($params) {
   $errvalues = array();
+  $skiprows = array();
   $matching = $params['matching'];
   $entityName = $params['entity_name'];
   $rowcount = 0;
@@ -50,17 +52,26 @@ function civicrm_api3_data_source_Geterrors($params) {
     }
     $validateApiResult = civicrm_api3($entityName, 'validate', $validateApiParams);
 
+    // If there are errors, this row will be skipped.
+    if ($validateApiResult['count'] != 0) {
+      $skiprows[] = $rowcount;
+    }
+
     // Format errvalues in a nice way in PHP because frankly I don't know enough
     // Angular to do fancy stuff there.
     foreach ($validateApiResult['values'][0] as $err) {
       $errvalues[$rowcount][] = $err['message'];
+      $errors['iserror'] = 1;
     }
   }
 
   // We have the error values in errvalues, now all we have to do is put
   // them in a CSV file and provide a link to download that file.
 
-  return civicrm_api3_create_success($errvalues, $params);
+  $errors['errvalues'] = $errvalues;
+  $errors['skiprows'] = $skiprows;
+
+  return civicrm_api3_create_success($errors, $params);
 }
 
 /**
@@ -97,4 +108,51 @@ function civicrm_api3_data_source_Getpreload($params) {
   }
 
   return civicrm_api3_create_success($allEntities, $params);
+}
+
+/**
+ * DataSource.import API
+ *
+ * Import everything that passed validation.
+ *
+ * @param array $params
+ * @return array API result descriptor
+ * @see civicrm_api3_create_success
+ * @see civicrm_api3_create_error
+ * @throws API_Exception
+ */
+function civicrm_api3_data_source_import($params) {
+  $skiprows = $params['skiprows'];
+  $matching = $params['matching'];
+  $fileAddress = $params['file_address'];
+  $entityName = $params['entity_name'];
+  $excep = array();
+  $rowcount = 0;
+  $successful = 0;
+
+  $csvFile = fopen($fileAddress, "r");
+
+  while ($values = fgetcsv($csvFile)) {
+    $rowcount++;
+    // If row had errors, do not import.
+    if (in_array($rowcount,$skiprows)) {
+      continue;
+    }
+
+    foreach ($values as $key => $value) {
+      $apiParams[$matching[$key]]  = $value;
+    }
+
+    $createResult = civicrm_api3($entityName, 'create', $apiParams);
+    if ($createResult['is_error'] == 1) {
+      $successful--;
+      $excep[] = "Row $rowcount failed to import. Error: " . $createResult['error_message'];
+    }
+
+    $successful++;
+  }
+
+  $result['excep'] = $excep;
+  $result['rows_imported'] = $successful;
+  return civicrm_api3_create_success($result, $params);
 }

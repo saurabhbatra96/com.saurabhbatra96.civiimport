@@ -110,17 +110,28 @@
       };
       var result = crmApi('DataSource', 'Geterrors', params);
       result.then(function(data) {
-        if (data.count == 0) {
+        console.log(data);
+        if (data.values.iserror != 1) {
           $scope.isError = false;
         } else {
           $scope.isError = true;
-          $scope.errno = data.count;
         }
-        $scope.errors = data.values;
+        $scope.errors = data.values.errvalues;
+        $scope.skiprows = data.values.skiprows;
       });
     }
 
-
+    $scope.import = function() {
+      var params = {
+        'file_address': $scope.fileAddress,
+        'matching': $scope.matching,
+        'skiprows': $scope.skiprows,
+        'entity_name': files.entityName,
+      }
+      crmApi('DataSource', 'import', params).then(function(data) {
+        console.log(data);
+      });
+    }
   });
 
 })(angular, CRM.$, CRM._);
