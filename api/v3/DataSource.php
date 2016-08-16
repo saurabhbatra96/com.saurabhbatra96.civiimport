@@ -48,12 +48,12 @@ function civicrm_api3_data_source_Geterrors($params) {
     $rowcount++;
     $validateApiParams['action'] = 'create';
     foreach ($values as $key => $value) {
-      $validateApiParams[$matching[$key]]  = $value;
+      $validateApiParams[$matching[$key]]  = trim($value);
     }
     $validateApiResult = civicrm_api3($entityName, 'validate', $validateApiParams);
 
     // If there are errors, this row will be skipped.
-    if ($validateApiResult['count'] != 0) {
+    if (!empty($validateApiResult['values'][0])) {
       $skiprows[] = $rowcount;
     }
 
@@ -128,7 +128,7 @@ function civicrm_api3_data_source_import($params) {
   $matching = $params['matching'];
   $fileAddress = $params['file_address'];
   $entityName = $params['entity_name'];
-  $excep = array();
+
   $rowcount = 0;
   $successful = 0;
 
@@ -142,19 +142,14 @@ function civicrm_api3_data_source_import($params) {
     }
 
     foreach ($values as $key => $value) {
-      $apiParams[$matching[$key]]  = $value;
+      $apiParams[$matching[$key]]  = trim($value);
     }
 
     $createResult = civicrm_api3($entityName, 'create', $apiParams);
-    if ($createResult['is_error'] == 1) {
-      $successful--;
-      $excep[] = "Row $rowcount failed to import. Error: " . $createResult['error_message'];
-    }
 
     $successful++;
   }
 
-  $result['excep'] = $excep;
   $result['rows_imported'] = $successful;
   return civicrm_api3_create_success($result, $params);
 }

@@ -131,6 +131,7 @@
         'entity_name': files.entityName,
       }
       crmApi('DataSource', 'import', params).then(function(data) {
+        console.log(data);
         $scope.rowsImported = data.values.rows_imported;
       });
     }
