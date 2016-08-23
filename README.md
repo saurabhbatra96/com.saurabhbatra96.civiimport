@@ -16,6 +16,3 @@ While the extension is not in a state that clients can use with no hassle, it cu
 ### What needs to be done
 * One of the main ideas behind this extension was to have a data-source interface which allowed imports from multiple file formats, currently this extension only supports CSV files.
 * Google's Developer Console has this annoying (I know it's for security but that doesn't stop it from being a pain in the back) requirement where you have to list out allowed redirect URLs for your app. That means, basically anyone who's planning on using the extension has to manually insert their URL in Developer's Console, generate their own version of "client_secret.json" and paste it into their extension folder. We need to automate this!
-
-### Documentation
-Yup, I'll write this someday. Honest to God.
