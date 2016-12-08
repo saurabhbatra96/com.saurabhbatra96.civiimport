@@ -18,6 +18,7 @@
     var ts = $scope.ts = CRM.ts('civiimport');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/Import'});
 
+
     // Determine whether the user is logged into Google Drive or not.
     // TODO: This piece feels kinda shady to me, fix when you have the time.
     $scope.isUserLoggedIn = false;

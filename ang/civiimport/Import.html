@@ -4,6 +4,11 @@
       <div crm-ui-wizard-step crm-title="ts('Upload Data')" ng-form="dsForm">
         <div class="crm-group">
           <div class="crm-block" crm-ui-id-scope>
+            <div class="help">
+              <p>1. Select an entity to import.</p>
+              <p>2. Browse and select the CSV file which contains the records.</p>
+              <p>3. Click on upload and then click on next to continue.</p>
+            </div>
             <div crm-ui-field="{name: 'dsForm.entity_name', title: ts('Entity to Import')}">
               <select
                 crm-ui-id="dsForm.entity_name"
@@ -27,7 +32,8 @@
                 </li>
               </ul>
             </div>
-            <p style="text-align:center;">
+            <!-- This deals with Google sheets. -->
+            <!--<p style="text-align:center;">
               <b>OR</b>
             </p>
 
@@ -42,12 +48,16 @@
                      id="sheet_id"><br><br>
               <a class="button" ng-show="isUserLoggedIn;" ng-click="exportSheet();">Export from Google</a>
               <a class="button" ng-show="isUserLoggedIn;" ng-click="logoutUser();">Logout</a>
-            </div>
+            </div>-->
 
           </div>
         </div>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Match Fields')" ng-form="matchForm">
+        <div class="help">
+          <p>1. Match the sample rows with the fields from the table where you want to import.</p>
+          <p class="warning">2. Click on use mapping once you're done matching before you proceed.</p>
+        </div>
         <table class="display">
           <thead>
             <tr>
@@ -73,7 +83,7 @@
             </tr>
           </tbody>
         </table>
-        <a class="button" ng-click="useMapping();">Use Mapping</a>
+        <div class="crm-wizard-buttons"><button crm-icon="fa-chevron" ng-click="useMapping();" ng-disabled="matchForm.$invalid">Use Mapping</button></div>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Validation')" ng-form="validationForm">
         <div class="help">
@@ -119,7 +129,7 @@
             </tbody>
           </table>
         </div>
-        <a class="button" ng-click="import();">Import Selected Rows</a>
+        <a class="button" ng-click="import();">Import Valid Rows</a>
       </div>
       <div crm-ui-wizard-step crm-title="ts('Summary')" ng-form="sumForm">
         <div class="help">
