@@ -1,7 +1,7 @@
 <form name="crmImport">
   <div class="crm-block crm-form-block">
     <div crm-ui-wizard>
-      <div crm-ui-wizard-step crm-title="ts('Upload Data')" ng-form="dsForm">
+      <div crm-ui-wizard-step crm-ui-wizard-step-valid="dsFormValid()" crm-title="ts('Upload Data')" ng-form="dsForm">
         <div class="crm-group">
           <div class="crm-block" crm-ui-id-scope>
             <div class="help">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div crm-ui-wizard-step crm-title="ts('Match Fields')" ng-form="matchForm">
+      <div crm-ui-wizard-step crm-ui-wizard-step-valid="matchFormValid()" crm-title="ts('Match Fields')" ng-form="matchForm">
         <div class="help">
           <p>1. Match the sample rows with the fields from the table where you want to import.</p>
           <p class="warning">2. Click on use mapping once you're done matching before you proceed.</p>
@@ -85,7 +85,7 @@
         </table>
         <div class="crm-wizard-buttons"><button crm-icon="fa-chevron" ng-click="useMapping();" ng-disabled="matchForm.$invalid">Use Mapping</button></div>
       </div>
-      <div crm-ui-wizard-step crm-title="ts('Validation')" ng-form="validationForm">
+      <div crm-ui-wizard-step crm-ui-wizard-step-valid="importValid()" crm-title="ts('Validation')" ng-form="validationForm">
         <div class="help">
           <p>The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results.</p><br>
           <p class="warning" ng-show="isError">CiviCRM has detected errors in some row(s), these values will be skipped on import OR you can go back and fix the errors.

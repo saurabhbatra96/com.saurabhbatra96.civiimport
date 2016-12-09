@@ -18,6 +18,12 @@
     var ts = $scope.ts = CRM.ts('civiimport');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/civiimport/Import'});
 
+    $scope.isDsFormValid = false;
+    $scope.isMatchFormValid = false;
+    $scope.isImportValid = false;
+    $scope.dsFormValid = function() { return $scope.isDsFormValid; }
+    $scope.matchFormValid = function() { return $scope.isMatchFormValid; }
+    $scope.importValid = function() { return $scope.isImportValid; }
 
     // Determine whether the user is logged into Google Drive or not.
     // TODO: This piece feels kinda shady to me, fix when you have the time.
@@ -63,6 +69,7 @@
 
     // Call this after upload of file is finished.
     var afterUpload = function afterUpload(response) {
+      $scope.isDsFormValid = true;
       $scope.fileAddress = response;
       CRM.alert('Finished uploading.');
       var params = {'file_address': response};
@@ -111,7 +118,6 @@
       };
       var result = crmApi('DataSource', 'Geterrors', params);
       result.then(function(data) {
-        console.log(data);
         if (data.values.iserror != 1) {
           $scope.isError = false;
         } else {
@@ -121,6 +127,8 @@
         $scope.skiprows = data.values.skiprows;
         $scope.totalRowsNo = data.values.total_rows;
         $scope.validRowsNo = data.values.valid_rows;
+
+        $scope.isMatchFormValid = true;
       });
     }
 
@@ -132,9 +140,10 @@
         'entity_name': files.entityName,
       }
       crmApi('DataSource', 'import', params).then(function(data) {
-        console.log(data);
         $scope.rowsImported = data.values.rows_imported;
       });
+
+      $scope.isImportValid = true;
     }
   });
 
