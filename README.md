@@ -1,6 +1,8 @@
 # com.saurabhbatra96.civiimport
 Import to any API for CiviCRM - Google Summer of Code
 
+Disclaimer - This repo is not being actively maintained and remains in beta.
+
 ### The aim
 The aim of this project was to have an easy to use extension to import CiviCRM client data from a plethora of file formats (ex. CSV, Excel sheets) and also have support to import directly from Google Sheets. All this, using AngularJS on top to provide a better UX.
 
